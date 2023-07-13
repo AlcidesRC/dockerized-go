@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+            target: development
+        container_name: app
+        restart: unless-stopped
+        tty: true
+        working_dir: /go/src
+        volumes:
+            - ./src:/go/src
