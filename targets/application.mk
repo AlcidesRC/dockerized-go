@@ -39,6 +39,6 @@ compile: format test ## Application: build the application binary file
 	$(call taskDone)
 
 execute: compile ## Application: executes the binary script
-	$(call showTitle,"APPLICATION: EXECUTES THE APPLICATION SERVICE",$(call rpad,21))
+	$(call showTitle,"APPLICATION: EXECUTES THE APPLICATION BINARY",$(call rpad,29))
 	@docker-compose exec --workdir=/go/bin app ./$(MODULE_NAME)
 	$(call taskDone)
