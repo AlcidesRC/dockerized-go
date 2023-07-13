@@ -1,3 +1,16 @@
+###
+# PRODUCTION
+###
+
+build-distroless: ## Docker: builds the service for production environment
+	$(call showTitle,"DOCKER: BUILDING A DISTROLESS APPLICATION SERVICE",$(call rpad,21))
+	@docker build --file Dockerfile --target distroless --tag app:latest .
+	$(call taskDone)
+
+###
+# DEVELOPMENT
+###
+
 build: ## Docker: builds the service
 	$(call showTitle,"DOCKER: BUILDING THE APPLICATION SERVICE",$(call rpad,29))
 	$(call runDockerCompose,build,--build-arg UNAME=$(UNAME) --build-arg GNAME=$(GNAME) --build-arg UID=$(UID) --build-arg GID=$(GID))

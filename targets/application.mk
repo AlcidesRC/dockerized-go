@@ -1,3 +1,7 @@
+###
+# DEVELOPMENT
+###
+
 version: ## Application: displays the Go Version
 	$(call showTitle,"APPLICATION: DISPLAYS CURRENT GOLANG VERSION",$(call rpad,29))
 	$(call runDockerComposeExec,go version)
@@ -41,4 +45,13 @@ compile: format test ## Application: build the application binary file
 execute: compile ## Application: executes the binary script
 	$(call showTitle,"APPLICATION: EXECUTES THE APPLICATION BINARY",$(call rpad,29))
 	@docker-compose exec --workdir=/go/bin app ./$(MODULE_NAME)
+	$(call taskDone)
+
+###
+# PRODUCTION
+###
+
+execute-distroless: ## Application: executes the binary script from distroless image
+	$(call showTitle,"APPLICATION: EXECUTES THE PRODUCTION APPLICATION BINARY",$(call rpad,13))
+	@docker run app:latest
 	$(call taskDone)

@@ -13,7 +13,8 @@ The Docker image is based on **golang:alpine** in order to keep images as much l
 ### Highlights
 
 - Unified environment to build CLI or web applications with Go.
-- Lightweight: main service Docker image only requires **258.0MB**.
+- Development service Docker image requires **258.0MB**.
+- Lightweight: distroless image requires **4.3MB**.
 
 ## Requirements
 
@@ -82,6 +83,8 @@ A *Makefile* is provided with some predefined commands:
 · run                            Application: executes the main script
 · compile                        Application: build the application binary file
 · execute                        Application: executes the binary script
+· execute-distroless             Application: executes the binary script from distroless image
+· build-distroless               Docker: builds the service for production environment
 · build                          Docker: builds the service
 · down                           Docker: stops the service
 · up                             Docker: starts the service
@@ -90,65 +93,93 @@ A *Makefile* is provided with some predefined commands:
 · bash                           Docker: stablish a bash session into main container
 ```
 
-#### Build the service
+#### Development
+
+##### Build the service
 
 ```bash
 ~/path/to/my-new-project$ make build
 ```
 
-##### About `make build` command
+###### About `make build` command
 
 It is important to use `make build` command instead of `docker-compose build` to create the Docker base image. The reason why is because the _Makefile_ command passes to `Dockerfile` your host account details, required to create an internal user into the application container with the same name, group and ids. 
 
 This way avoids file permission conflicts on internally created files that needs to be shared with the host. 
 
-#### Start the service
+##### Start the service
 
 ```bash
 ~/path/to/my-new-project$ make up
 ```
 
-#### Initialize the Go module
+##### Initialize the Go module
 
 ```bash
 ~/path/to/my-new-project$ make init
 ```
 
-#### Run the business application logic
+##### Run the business application logic
 
 ```bash
 ~/path/to/my-new-project$ make run
 ```
 
-#### Compile the application
+##### Compile the application
 
 ```bash
 ~/path/to/my-new-project$ make compile
 ```
 
-#### Execute the application binary file
+##### Execute the application binary file
 
 ```bash
 ~/path/to/my-new-project$ make execute	
 ```
 
-#### Stop the service
+##### Stop the service
 
 ```bash
 ~/path/to/my-new-project$ make down
 ```
 
-#### Dealing with Code Quality
+##### Dealing with Code Quality
 
 ```bash
 ~/path/to/my-new-project$ make format
 ```
 
-#### Dealing with Tests
+##### Dealing with Tests
 
 ```bash
 ~/path/to/my-new-project$ make test
 ```
+
+#### Production
+
+##### Build the service
+
+```bash
+~/path/to/my-new-project$ make build-distroless
+```
+
+###### About `make build-distroless` command
+
+This command builds the service for production environments but using a *distroless* Docker image.
+
+> Please take a look to Dockerfile multistage file   
+
+##### Execute the service
+
+```bash
+~/path/to/my-new-project$ make execute-distroless
+```
+
+###### About `make execute-distroless` command
+
+This command executes the service from the *distroless* Docker image.
+
+> Please take a look to Dockerfile multistage file   
 
 ## Security Vulnerabilities
 
