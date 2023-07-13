@@ -1,5 +1,3 @@
-[![Integration Tests](https://github.com/fonil/dockerized-php-dev-env/actions/workflows/integration-tests.yml/badge.svg?branch=main)](https://github.com/fonil/dockerized-php-dev-env/actions/workflows/integration-tests.yml)
-
 # Dockerized Go Development Environment
 
 > A lightweight Go development environment    
