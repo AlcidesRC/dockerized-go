@@ -19,7 +19,7 @@ tidy: ## Application: add module requirements and sum
 
 dependencies: ## Application: list application dependencies
 	$(call showTitle,"APPLICATION: LIST APPLICATION DEPENDENCIES",$(call rpad,29))
-	$(call runDockerComposeExecAsUser,go list -m all)
+	$(call runDockerComposeExec,go list -m all)
 	$(call taskDone)
 
 test: ## Application: executes the test suite
@@ -32,26 +32,26 @@ format: ## Application: fix source code format
 	$(call runDockerComposeExec,go fmt)
 	$(call taskDone)
 
-run: format test ## Application: executes the main script
+run: ## Application: executes the main script
 	$(call showTitle,"APPLICATION: RUN THE APPLICATION SERVICE",$(call rpad,29))
 	$(call runDockerComposeExec,go run main.go)
 	$(call taskDone)
 
-compile: format test ## Application: build the application binary file
+compile: ## Application: build the application binary file
 	$(call showTitle,"APPLICATION: BUILD THE APPLICATION BINARY FILE",$(call rpad,21))
 	$(call runDockerComposeExec,go build -o /go/bin/$(MODULE_NAME) ./main.go)
 	$(call taskDone)
 
-execute: compile ## Application: executes the binary script
+execute: ## Application: executes the binary script
 	$(call showTitle,"APPLICATION: EXECUTES THE APPLICATION BINARY",$(call rpad,29))
-	@docker-compose exec --workdir=/go/bin app ./$(MODULE_NAME)
+	@docker-compose exec --workdir=/go/bin app ./$(MODULE_NAME) ../src/config.yml
 	$(call taskDone)
 
 ###
 # PRODUCTION
 ###
 
-execute-distroless: ## Application: executes the binary script from distroless image
+execute-production: ## Application: executes the binary script from production image
 	$(call showTitle,"APPLICATION: EXECUTES THE PRODUCTION APPLICATION BINARY",$(call rpad,13))
 	@docker run app:latest
 	$(call taskDone)

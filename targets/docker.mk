@@ -2,9 +2,14 @@
 # PRODUCTION
 ###
 
-build-distroless: ## Docker: builds the service for production environment
+build-scratch: ## Docker: builds the service for production environment
 	$(call showTitle,"DOCKER: BUILDING A DISTROLESS APPLICATION SERVICE",$(call rpad,21))
-	@docker build --file Dockerfile --target distroless --tag app:latest .
+	@docker build --file Dockerfile --target scratch --tag app:latest .
+	$(call taskDone)
+
+build-alpine: ## Docker: builds the service for production environment
+	$(call showTitle,"DOCKER: BUILDING AN ALPINE APPLICATION SERVICE",$(call rpad,21))
+	@docker build --file Dockerfile --target alpine --tag app:latest .
 	$(call taskDone)
 
 ###

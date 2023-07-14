@@ -13,8 +13,7 @@ The Docker image is based on **golang:alpine** in order to keep images as much l
 ### Highlights
 
 - Unified environment to build CLI or web applications with Go.
-- Development service Docker image requires **258.0MB**.
-- Lightweight: distroless image requires **4.3MB**.
+- Allows to create production-grade Docker images based on Alpine and/or Scratch.
 
 ## Requirements
 
@@ -83,8 +82,9 @@ A *Makefile* is provided with some predefined commands:
 · run                            Application: executes the main script
 · compile                        Application: build the application binary file
 · execute                        Application: executes the binary script
-· execute-distroless             Application: executes the binary script from distroless image
-· build-distroless               Docker: builds the service for production environment
+· execute-production             Application: executes the binary script from production image
+· build-scratch                  Docker: builds the service for production environment
+· build-alpine                   Docker: builds the service for production environment
 · build                          Docker: builds the service
 · down                           Docker: stops the service
 · up                             Docker: starts the service
@@ -125,6 +125,8 @@ This way avoids file permission conflicts on internally created files that needs
 ~/path/to/my-new-project$ make run
 ```
 
+> This command executes the application by running `go run main.go`
+
 ##### Compile the application
 
 ```bash
@@ -134,14 +136,18 @@ This way avoids file permission conflicts on internally created files that needs
 ##### Execute the application binary file
 
 ```bash
-~/path/to/my-new-project$ make execute	
+~/path/to/my-new-project$ make execute
 ```
+
+> This command executes the application by running `docker-compose exec --workdir=/go/bin app ...`
 
 ##### Stop the service
 
 ```bash
 ~/path/to/my-new-project$ make down
 ```
+
+#### Quality Assurance
 
 ##### Dealing with Code Quality
 
@@ -157,29 +163,35 @@ This way avoids file permission conflicts on internally created files that needs
 
 #### Production
 
-##### Build the service
+##### Creating an Alpine-based Docker Image
 
 ```bash
-~/path/to/my-new-project$ make build-distroless
+~/path/to/my-new-project$ make build-alpine
 ```
 
-###### About `make build-distroless` command
+###### About `make build-alpine` command
 
-This command builds the service for production environments but using a *distroless* Docker image.
+This command builds a production-grade Docker image containing the application binary file(s).
 
-> Please take a look to Dockerfile multistage file   
+##### Creating a Scratch-based Docker Image
+
+```bash
+~/path/to/my-new-project$ make build-scratch
+```
+
+###### About `make build-scratch` command
+
+This command builds a production-grade Docker image containing the application binary file(s).
 
 ##### Execute the service
 
 ```bash
-~/path/to/my-new-project$ make execute-distroless
+~/path/to/my-new-project$ make execute-production
 ```
 
-###### About `make execute-distroless` command
+###### About `make execute-production` command
 
-This command executes the service from the *distroless* Docker image.
-
-> Please take a look to Dockerfile multistage file   
+This command executes the service from the recently created production-grade Docker image.
 
 ## Security Vulnerabilities
 
